@@ -30,6 +30,7 @@ class RegistroForm(UserCreationForm):
         user.email = self.cleaned_data['email']
         if commit:
             user.save()
+
         return user
 
 class AlumnoForm(forms.ModelForm):

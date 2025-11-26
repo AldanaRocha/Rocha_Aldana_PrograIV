@@ -83,9 +83,7 @@
                         </td>
                         <td class="text-center">
                             <div class="btn-group btn-group-sm" role="group">
-                                <a href="{% url 'editar_alumno' alumno.pk %}" class="btn btn-warning" title="Editar">
-                                    <i class="bi bi-pencil"></i>
-                                </a>
+
                                 <a href="{% url 'descargar_pdf_alumno' alumno.pk %}" class="btn btn-info" title="Descargar PDF">
                                     <i class="bi bi-file-pdf"></i>
                                 </a>
@@ -98,34 +96,6 @@
                             </div>
                         </td>
                     </tr>
-
-                    <!-- Modal para enviar email -->
-                    <div class="modal fade" id="emailModal{{ alumno.pk }}" tabindex="-1">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Enviar PDF por Email</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                </div>
-                                <form method="post" action="{% url 'enviar_pdf_alumno' alumno.pk %}">
-                                    {% csrf_token %}
-                                    <div class="modal-body">
-                                        <p>Se enviará el PDF de <strong>{{ alumno.nombre }}</strong></p>
-                                        <div class="mb-3">
-                                            <label for="email_destino" class="form-label">Email de destino:</label>
-                                            <input type="email" class="form-control" name="email_destino" value="{{ user.email }}" required>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                        <button type="submit" class="btn btn-primary">
-                                            <i class="bi bi-send"></i> Enviar
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
                     {% endfor %}
                 </tbody>
             </table>
@@ -142,4 +112,35 @@
         {% endif %}
     </div>
 </div>
+
+<!-- Modales para enviar email (fuera de la tabla) -->
+{% for alumno in alumnos %}
+<div class="modal fade" id="emailModal{{ alumno.pk }}" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Enviar PDF por Email</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="post" action="{% url 'enviar_pdf_alumno' alumno.pk %}">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <p>Se enviará el PDF de <strong>{{ alumno.nombre }}</strong></p>
+                    <div class="mb-3">
+                        <label for="email_destino_{{ alumno.pk }}" class="form-label">Email de destino:</label>
+                        <input type="email" class="form-control" name="email_destino" id="email_destino_{{ alumno.pk }}" value="{{ alumno.email }}" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-send"></i> Enviar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
 {% endblock %}
