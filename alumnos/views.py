@@ -25,7 +25,7 @@ def registro_view(request):
             try:
                 send_mail(
                     '¡Bienvenido al Sistema de Gestión de Alumnos!',
-                    f'Hola {user.username},\n\nGracias por registrarte en nuestro sistema.\n\nYa puedes comenzar a gestionar tus alumnos.\n\nSaludos,\nEl equipo',
+                    f'Hola {user.username},\n\nGracias profe por las clases, lo quiero mucho\n\nSaludos cordiales,\nAldana Rocha!',
                     settings.DEFAULT_FROM_EMAIL,
                     [user.email],
                     fail_silently=False,
